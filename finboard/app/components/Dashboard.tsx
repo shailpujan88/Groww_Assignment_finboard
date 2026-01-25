@@ -84,9 +84,14 @@ export default function Dashboard() {
     import('@/app/utils/templateConfigs').then(({ TEMPLATE_CONFIGS }) => {
       const templateWidgets = TEMPLATE_CONFIGS[templateId] || [];
       if (templateWidgets.length > 0) {
+        // Update positions for template widgets based on current widget count
+        const widgetsWithUpdatedPositions = templateWidgets.map((widget, index) => ({
+          ...widget,
+          position: widgets.length + index,
+        }));
         // Add all template widgets to the dashboard
         const newDashboard = {
-          widgets: [...widgets, ...templateWidgets],
+          widgets: [...widgets, ...widgetsWithUpdatedPositions],
           theme,
         };
         dispatch(loadDashboard(newDashboard));

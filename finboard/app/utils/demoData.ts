@@ -8,6 +8,7 @@ export const DEMO_WIDGETS: Widget[] = [
     selectedFields: ['usd', 'usd_market_cap'],
     displayMode: 'card',
     refreshInterval: 60,
+    position: 0,
     data: { 
       usd: 42350.50,
       usd_market_cap: 830000000000
@@ -22,6 +23,7 @@ export const DEMO_WIDGETS: Widget[] = [
     selectedFields: ['ethereum', 'cardano', 'solana'],
     displayMode: 'table',
     refreshInterval: 60,
+    position: 1,
     data: { 
       ethereum: { usd: 2350.75, usd_market_cap: 282000000000 },
       cardano: { usd: 0.95, usd_market_cap: 33000000000 },
@@ -37,6 +39,7 @@ export const DEMO_WIDGETS: Widget[] = [
     selectedFields: ['total_market_cap', 'total_volume', 'btc_dominance'],
     displayMode: 'chart',
     refreshInterval: 60,
+    position: 2,
     data: { 
       total_market_cap: 1200000000000,
       total_volume: 85000000000,

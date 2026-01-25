@@ -47,7 +47,7 @@ export default function WidgetModal({ widget, onClose, theme }: WidgetModalProps
                   : 'text-cyan-600'
               }`}
             >
-              <span className="text-3xl">{widget.icon || '📊'}</span>
+              <span className="text-3xl">📊</span>
               {widget.name}
             </h3>
             <button

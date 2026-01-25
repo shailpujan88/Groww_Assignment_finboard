@@ -9,6 +9,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['bitcoin.usd', 'bitcoin.usd_market_cap', 'bitcoin.usd_24h_change'],
       displayMode: 'card',
       refreshInterval: 60,
+      position: 0,
       data: null,
       loading: false,
       error: null,
@@ -20,6 +21,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['bitcoin.usd', 'ethereum.usd', 'binancecoin.usd', 'cardano.usd', 'solana.usd'],
       displayMode: 'table',
       refreshInterval: 60,
+      position: 1,
       data: null,
       loading: false,
       error: null,
@@ -31,6 +33,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['data.total_market_cap.usd', 'data.total_volume.usd', 'data.market_cap_percentage.btc'],
       displayMode: 'card',
       refreshInterval: 120,
+      position: 2,
       data: null,
       loading: false,
       error: null,
@@ -45,6 +48,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['data.total_market_cap.usd', 'data.total_volume.usd', 'data.market_cap_percentage.btc'],
       displayMode: 'card',
       refreshInterval: 300,
+      position: 0,
       data: {
         total_market_cap: '$1.2T',
         total_volume: '$85B',
@@ -60,6 +64,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['bitcoin.usd', 'ethereum.usd', 'binancecoin.usd', 'ripple.usd', 'cardano.usd'],
       displayMode: 'table',
       refreshInterval: 300,
+      position: 1,
       data: {
         bitcoin: { usd: 42350, usd_market_cap: 830000000000 },
         ethereum: { usd: 2350, usd_market_cap: 282000000000 },
@@ -77,6 +82,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['bitcoin.usd_24h_change', 'ethereum.usd_24h_change', 'solana.usd_24h_change'],
       displayMode: 'chart',
       refreshInterval: 3600,
+      position: 2,
       data: {
         bitcoin: { usd_24h_change: 2.45 },
         ethereum: { usd_24h_change: 1.82 },
@@ -95,6 +101,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['ethereum.eur', 'litecoin.gbp', 'ripple.jpy', 'dogecoin.eur', 'polkadot.gbp'],
       displayMode: 'table',
       refreshInterval: 600,
+      position: 0,
       data: {
         ethereum: { eur: 2100, gbp: 1890 },
         litecoin: { eur: 165, gbp: 148 },
@@ -112,6 +119,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['bitcoin.usd', 'bitcoin.eur', 'bitcoin.gbp', 'bitcoin.jpy', 'bitcoin.cad', 'bitcoin.aud'],
       displayMode: 'card',
       refreshInterval: 600,
+      position: 1,
       data: {
         USD: 42350,
         EUR: 39000,
@@ -130,6 +138,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['data.total_market_cap.usd', 'data.total_market_cap.eur', 'data.total_market_cap.gbp'],
       displayMode: 'chart',
       refreshInterval: 1800,
+      position: 2,
       data: {
         market_cap_usd: 1200000000000,
         market_cap_eur: 1100000000000,
@@ -148,6 +157,7 @@ export const TEMPLATE_CONFIGS: Record<string, Widget[]> = {
       selectedFields: ['data'],
       displayMode: 'card',
       refreshInterval: 300,
+      position: 0,
       data: {
         message: 'Connect your API to see live data here',
         status: 'Ready to receive data',
