@@ -20,7 +20,6 @@ export default function Dashboard() {
   const { widgets, theme } = useSelector((state: RootState) => state.dashboard);
   const [showAddModal, setShowAddModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [showDemoWidgets, setShowDemoWidgets] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showBackup, setShowBackup] = useState(false);
@@ -211,42 +210,6 @@ export default function Dashboard() {
                 </button>
               </div>
             </div>
-
-            {/* Features Section */}
-            {showDemoWidgets && (
-              <div className="mt-16 animate-fade-in">
-                <h3 className={`text-3xl font-bold mb-8 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                  ✨ Key Features
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {[
-                    { icon: '📊', title: 'Multiple Display Modes', desc: 'Cards, Tables, Charts' },
-                    { icon: '🎨', title: 'Customizable Widgets', desc: 'Choose your fields and layout' },
-                    { icon: '🔄', title: 'Drag & Drop', desc: 'Organize your dashboard freely' },
-                    { icon: '🌓', title: 'Dark & Light Mode', desc: 'Eye-friendly viewing' },
-                    { icon: '💾', title: 'Import/Export', desc: 'Backup and share configs' },
-                    { icon: '⚙️', title: 'Auto Refresh', desc: 'Configurable update intervals' },
-                  ].map((feature, idx) => (
-                    <div
-                      key={idx}
-                      className={`p-6 rounded-2xl border transition transform hover:scale-105 hover:shadow-xl ${
-                        theme === 'dark'
-                          ? 'bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700'
-                          : 'bg-gradient-to-br from-white to-slate-50 border-slate-200'
-                      }`}
-                    >
-                      <div className="text-3xl mb-3">{feature.icon}</div>
-                      <h4 className={`font-bold text-lg mb-1 ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                        {feature.title}
-                      </h4>
-                      <p className={`text-sm ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
-                        {feature.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* Templates Section */}
             {showTemplates && (
