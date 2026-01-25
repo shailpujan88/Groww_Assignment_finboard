@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addWidget } from '@/app/store/dashboardSlice';
 import { fetchApiData, validateApiUrl, extractFieldsFromResponse } from '@/app/utils/api';
-import { RootState, AppDispatch } from '@/app/store/store';
+import { RootState, AppDispatch, store } from '@/app/store/store';
+import { saveToLocalStorage } from '@/app/utils/storage';
 import FieldSelector from './FieldSelector';
 
 interface AddWidgetModalProps {
@@ -15,6 +16,7 @@ interface AddWidgetModalProps {
 
 export default function AddWidgetModal({ isOpen, onClose, theme }: AddWidgetModalProps) {
   const dispatch = useDispatch<AppDispatch>();
+  const widgets = useSelector((state: RootState) => state.dashboard.widgets);
   const [widgetName, setWidgetName] = useState('');
   const [apiUrl, setApiUrl] = useState('');
   const [refreshInterval, setRefreshInterval] = useState('30');
@@ -25,8 +27,6 @@ export default function AddWidgetModal({ isOpen, onClose, theme }: AddWidgetModa
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState<'basic' | 'fields'>('basic');
   const [apiResponse, setApiResponse] = useState<Record<string, any> | null>(null);
-
-  const widgets = useSelector((state: RootState) => state.dashboard.widgets);
 
   const handleTestApi = async () => {
     setError(null);
@@ -91,6 +91,17 @@ export default function AddWidgetModal({ isOpen, onClose, theme }: AddWidgetModa
     };
 
     dispatch(addWidget(newWidget));
+    
+    // Explicitly save to localStorage after adding widget
+    // Get the latest state from the store after dispatch
+    setTimeout(() => {
+      const currentState = store.getState().dashboard;
+      saveToLocalStorage({
+        widgets: currentState.widgets,
+        theme: currentState.theme,
+      });
+    }, 0);
+    
     handleClose();
   };
 

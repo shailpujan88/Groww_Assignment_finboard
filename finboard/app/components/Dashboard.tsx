@@ -38,7 +38,7 @@ export default function Dashboard() {
 
   // Save to localStorage whenever state changes
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && widgets.length >= 0) {
       saveToLocalStorage({
         widgets,
         theme,
