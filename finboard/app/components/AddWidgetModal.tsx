@@ -91,17 +91,6 @@ export default function AddWidgetModal({ isOpen, onClose, theme }: AddWidgetModa
     };
 
     dispatch(addWidget(newWidget));
-    
-    // Explicitly save to localStorage after adding widget
-    // Get the latest state from the store after dispatch
-    setTimeout(() => {
-      const currentState = store.getState().dashboard;
-      saveToLocalStorage({
-        widgets: currentState.widgets,
-        theme: currentState.theme,
-      });
-    }, 0);
-    
     handleClose();
   };
 

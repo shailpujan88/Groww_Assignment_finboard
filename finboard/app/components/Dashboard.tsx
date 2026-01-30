@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { RootState, AppDispatch } from '@/app/store/store';
@@ -23,26 +23,37 @@ export default function Dashboard() {
   const [showTemplates, setShowTemplates] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showBackup, setShowBackup] = useState(false);
+  const prevWidgetsRef = useRef<string>('');
 
   // Load dashboard from localStorage on mount
   useEffect(() => {
     const savedData = loadFromLocalStorage();
-    if (savedData) {
+    if (savedData && savedData.widgets) {
       dispatch(loadDashboard({
         widgets: savedData.widgets,
         theme: savedData.theme,
       }));
+      // Initialize the ref with loaded widgets
+      prevWidgetsRef.current = JSON.stringify(savedData.widgets);
+    } else {
+      // Initialize with empty array if no saved data
+      prevWidgetsRef.current = JSON.stringify([]);
     }
     setIsLoading(false);
   }, [dispatch]);
 
   // Save to localStorage whenever state changes
   useEffect(() => {
-    if (!isLoading && widgets.length >= 0) {
-      saveToLocalStorage({
-        widgets,
-        theme,
-      });
+    if (!isLoading) {
+      // Use JSON.stringify to detect actual changes in widget data
+      const widgetsString = JSON.stringify(widgets);
+      if (widgetsString !== prevWidgetsRef.current) {
+        prevWidgetsRef.current = widgetsString;
+        saveToLocalStorage({
+          widgets,
+          theme,
+        });
+      }
     }
   }, [widgets, theme, isLoading]);
 

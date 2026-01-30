@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { downloadDashboard, clearLocalStorage } from '@/app/utils/storage';
 import { RootState, AppDispatch } from '@/app/store/store';
@@ -16,6 +16,21 @@ interface HeaderProps {
 export default function Header({ onAddWidget, onToggleTheme, theme, onClearDashboard }: HeaderProps) {
   const dispatch = useDispatch<AppDispatch>();
   const dashboardState = useSelector((state: RootState) => state.dashboard);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [menuOpen]);
 
   const handleExport = () => {
     downloadDashboard(dashboardState, `finboard-${new Date().toISOString().split('T')[0]}.json`);
@@ -114,45 +129,71 @@ export default function Header({ onAddWidget, onToggleTheme, theme, onClearDashb
               </button>
             </div>
 
-            {/* Menu Dropdown */}
-            <div className="relative group">
-              <button className={`px-4 py-2.5 rounded-lg font-semibold transition transform hover:scale-105 active:scale-95 ${
-                theme === 'dark'
-                  ? 'bg-slate-700 hover:bg-slate-600'
-                  : 'bg-slate-200 hover:bg-slate-300'
-              }`}>
+            {/* Menu Dropdown - click to open/close */}
+            <div className="relative" ref={menuRef}>
+              <button
+                type="button"
+                onClick={() => setMenuOpen((prev) => !prev)}
+                className={`px-4 py-2.5 rounded-lg font-semibold transition transform hover:scale-105 active:scale-95 ${
+                  theme === 'dark'
+                    ? 'bg-slate-700 hover:bg-slate-600'
+                    : 'bg-slate-200 hover:bg-slate-300'
+                } ${menuOpen ? 'ring-2 ring-cyan-500' : ''}`}
+                aria-expanded={menuOpen}
+                aria-haspopup="true"
+              >
                 ⚙️ Menu
               </button>
-              <div className={`absolute right-0 mt-2 w-56 rounded-lg shadow-2xl z-10 hidden group-hover:block transition opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto ${
-                theme === 'dark' ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-slate-200'
-              }`}>
-                <button
-                  onClick={handleExport}
-                  className={`w-full text-left px-4 py-3 hover:bg-opacity-80 transition flex items-center gap-3 border-b font-semibold ${
-                    theme === 'dark' ? 'hover:bg-slate-700 border-slate-700 text-slate-100' : 'hover:bg-slate-100 border-slate-200'
+              {menuOpen && (
+                <div
+                  className={`absolute right-0 mt-2 w-56 rounded-lg shadow-2xl z-[100] py-1 ${
+                    theme === 'dark' ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-slate-200'
                   }`}
+                  role="menu"
                 >
-                  <span className="text-lg">📥</span> Export Dashboard
-                </button>
-                <button
-                  onClick={handleImport}
-                  className={`w-full text-left px-4 py-3 hover:bg-opacity-80 transition flex items-center gap-3 border-b font-semibold ${
-                    theme === 'dark' ? 'hover:bg-slate-700 border-slate-700 text-slate-100' : 'hover:bg-slate-100 border-slate-200'
-                  }`}
-                >
-                  <span className="text-lg">📤</span> Import Dashboard
-                </button>
-                <button
-                  onClick={handleClearAll}
-                  className={`w-full text-left px-4 py-3 transition flex items-center gap-3 font-semibold ${
-                    theme === 'dark'
-                      ? 'hover:bg-red-900/50 text-red-400'
-                      : 'hover:bg-red-100 text-red-600'
-                  }`}
-                >
-                  <span className="text-lg">🗑️</span> Clear All
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      handleExport();
+                      setMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-3 transition flex items-center gap-3 border-b font-semibold ${
+                      theme === 'dark' ? 'hover:bg-slate-700 border-slate-700 text-slate-100' : 'hover:bg-slate-100 border-slate-200'
+                    }`}
+                  >
+                    <span className="text-lg">📥</span> Export Dashboard
+                  </button>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      handleImport();
+                      setMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-3 transition flex items-center gap-3 border-b font-semibold ${
+                      theme === 'dark' ? 'hover:bg-slate-700 border-slate-700 text-slate-100' : 'hover:bg-slate-100 border-slate-200'
+                    }`}
+                  >
+                    <span className="text-lg">📤</span> Import Dashboard
+                  </button>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      handleClearAll();
+                      setMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-3 transition flex items-center gap-3 font-semibold ${
+                      theme === 'dark'
+                        ? 'hover:bg-red-900/50 text-red-400'
+                        : 'hover:bg-red-100 text-red-600'
+                    }`}
+                  >
+                    <span className="text-lg">🗑️</span> Clear All
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
